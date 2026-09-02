@@ -11631,6 +11631,10 @@ PrefabInstance:
       propertyPath: detectionRange
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2884907898945377320, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5426793123391570750, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_Name
       value: FlyingEnemy

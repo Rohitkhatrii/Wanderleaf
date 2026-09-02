@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 14676209}
   m_Layer: 0
   m_Name: Damage
-  m_TagString: Untagged
+  m_TagString: Damage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11659,11 +11659,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.166533
+      value: 29.63
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.58
+      value: 12.96
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11697,13 +11697,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8985267411702391920, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.49
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8985267411702391920, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.46
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

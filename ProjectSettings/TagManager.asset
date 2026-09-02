@@ -11,6 +11,7 @@ TagManager:
   - Key
   - Health
   - Bullet
+  - SpikeDamage
   layers:
   - Default
   - TransparentFX

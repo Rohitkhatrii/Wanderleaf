@@ -54,6 +54,9 @@ public class Player : MonoBehaviour
 
     public bool speedBoost;
 
+    public float damageCooldown = 0.6f;
+    private float nextDamageTime;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();    // we got the Rigidbody2D component from the components attached to the GameObject where this script is attached to. // we stored it in rb to access its members later on.
@@ -64,29 +67,29 @@ public class Player : MonoBehaviour
 
         extraJumps = extraJumpsValue;
 
-        if(Checkpoint.savedPosition != Vector2.zero)                // checkpoint
+        if (Checkpoint.savedPosition != Vector2.zero)                // checkpoint
         {
-            transform.position = Checkpoint.savedPosition; 
+            transform.position = Checkpoint.savedPosition;
         }
     }
 
 
     void Update()
-    {   
+    {
         //move input can be either -1 or 1 or 0 .      
         float moveInput = Input.GetAxis("Horizontal");            // we are using old input manager   // we write input in Update method because we want to check every frame for the input. 
-        
+
         // Mobile Touch override for horizontal movement
         if (leftBtn != null && leftBtn.isPressed) moveInput = -1f;
         else if (rightBtn != null && rightBtn.isPressed) moveInput = 1f;
 
-        if(rb.linearVelocityX != 0)            // if player is moving left or right just not at 0 thats it 
+        if (rb.linearVelocityX != 0)            // if player is moving left or right just not at 0 thats it 
         {
-            if(rb.linearVelocityX > 0)           // means if player going right 
+            if (rb.linearVelocityX > 0)           // means if player going right 
             {
                 spriteRenderer.flipX = false;
             }
-            else                                
+            else
             {
                 spriteRenderer.flipX = true;
             }
@@ -95,7 +98,7 @@ public class Player : MonoBehaviour
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
-            extraJumps  = extraJumpsValue;
+            extraJumps = extraJumpsValue;
         }
         else
         {
@@ -118,7 +121,7 @@ public class Player : MonoBehaviour
 
         if (jumpBufferCounter > 0f)
         {
-            if(coyoteTimeCounter > 0f)          // if the player is still within the coyote-time window, allow the jump.
+            if (coyoteTimeCounter > 0f)          // if the player is still within the coyote-time window, allow the jump.
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 jumpHoldCounter = jumpHoldTime;
@@ -144,12 +147,12 @@ public class Player : MonoBehaviour
         {
             jumpHoldCounter = 0f;
         }
-        
+
         SetAnimation(moveInput);        // calling method and taking arguement moveInput
 
-        healthImage.fillAmount = health/100f;
+        healthImage.fillAmount = health / 100f;
 
-        if(rb.linearVelocityY < 0)          // suppose a ground. y=0 means player is same level as ground , y = -1 he is below ground , y=1 above the ground
+        if (rb.linearVelocityY < 0)          // suppose a ground. y=0 means player is same level as ground , y = -1 he is below ground , y=1 above the ground
         {
             rb.gravityScale = 3f;       // making gravity scale 3 from by default value 2 in inspector
         }
@@ -158,7 +161,7 @@ public class Player : MonoBehaviour
             rb.gravityScale = 2f;      // gravityScale = 2 its by default set to 2 in Inpector
         }
 
-        if(transform.position.y < -15)        // if player goes like -11 then if(-11 < -10) is true because in negative numbers number closer to 0 is greater
+        if (transform.position.y < -15)        // if player goes like -11 then if(-11 < -10) is true because in negative numbers number closer to 0 is greater
         {
             Die();
         }
@@ -179,20 +182,20 @@ public class Player : MonoBehaviour
         else if (rightBtn != null && rightBtn.isPressed) moveInput = 1f;
 
         // here we generate a good amount of force
-        rb.AddForce(new Vector2(moveInput * moveSpeed * 50, 0f), ForceMode2D.Force);        
+        rb.AddForce(new Vector2(moveInput * moveSpeed * 50, 0f), ForceMode2D.Force);
 
         // here then we instantly limited it via clamp method // clamp method: suppose linearvelocityx is 5 so clamp will be like clamp(5,-3,+3) answer= 3 for more understanding check notes.
-        if(!speedBoost)        // When hitting the Speed Pad: speedBoost becomes true (see SpeedPad script for more understanding). The ! flips it to false. Because the if statement sees false, it completely ignores the clamp code. This allows the physics engine to throw your player at super speed without being artificially slowed down.
-        {   
-            rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocityX, -moveSpeed, moveSpeed), rb.linearVelocityY);   
-        }    
+        if (!speedBoost)        // When hitting the Speed Pad: speedBoost becomes true (see SpeedPad script for more understanding). The ! flips it to false. Because the if statement sees false, it completely ignores the clamp code. This allows the physics engine to throw your player at super speed without being artificially slowed down.
+        {
+            rb.linearVelocity = new Vector2(Mathf.Clamp(rb.linearVelocityX, -moveSpeed, moveSpeed), rb.linearVelocityY);
+        }
     }
 
     private void SetAnimation(float moveInput)
     {
         if (isGrounded)
         {
-            if(moveInput == 0)
+            if (moveInput == 0)
             {
                 animator.Play("Player_Idle");    // we write the name of animation also such as "Player_Idle"
             }
@@ -203,7 +206,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(rb.linearVelocityY > 0)
+            if (rb.linearVelocityY > 0)
             {
                 animator.Play("Player_Jump");
             }
@@ -212,54 +215,99 @@ public class Player : MonoBehaviour
                 animator.Play("Player_fall");
             }
         }
-        
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)      // method which runs automatically when a collision happens 
     {
-        if(collision.gameObject.tag == "Damage")               //collision.gmaeobject idar vo hai jisse collide kiya apna current script ka gameobject 
+        if (collision.gameObject.tag == "Damage")               //collision.gmaeobject idar vo hai jisse collide kiya apna current script ka gameobject 
         {
             PlaySFX(hurtClip);
             health -= 25;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             StartCoroutine(BlinkRed());                // we call coroutine by StartCoroutine();
 
-            if(health <= 0)
+            if (health <= 0)
             {
                 Die();
             }
         }
-        else if(collision.gameObject.tag == "BouncePad")
+        
+        if (collision.gameObject.tag == "BouncePad")
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 2);
 
         }
     }
- 
+
     private IEnumerator BlinkRed()                    // coroutine      // IEnumerator is just a Type
     {
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.2f);                 
-        spriteRenderer.color = Color.white; 
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = Color.white;
     }
 
     private void Die()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);               
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
-    public void PlaySFX(AudioClip audioClip, float volume = 1f)            
+    public void PlaySFX(AudioClip audioClip, float volume = 1f)
     {
         audioSource.clip = audioClip;
         audioSource.volume = volume;
-        audioSource.Play();    
+        audioSource.Play();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Strawberry")
+        if (collision.gameObject.CompareTag("Strawberry"))
         {
             extraJumpsValue = 2;
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.CompareTag("Damage"))
+        {
+            if (Time.time >= nextDamageTime)
+            {
+                nextDamageTime = Time.time + damageCooldown;
+
+                PlaySFX(hurtClip);
+                health -= 25;
+
+                float pushDirection = (transform.position.x < collision.transform.position.x) ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDirection * 6f, rb.linearVelocityY);
+
+                StartCoroutine(BlinkRed());
+
+                if (health <= 0)
+                {
+                    Die();
+                }
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Damage"))
+        {
+            if (Time.time >= nextDamageTime)
+            {
+                nextDamageTime = Time.time + damageCooldown;
+
+                PlaySFX(hurtClip);
+                health -= 25;
+
+                float pushDirection = (transform.position.x < collision.transform.position.x) ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDirection * 6f, rb.linearVelocityY);
+
+                StartCoroutine(BlinkRed());
+
+                if (health <= 0)
+                {
+                    Die();
+                }
+            }
         }
     }
 
@@ -269,9 +317,9 @@ public class Player : MonoBehaviour
         fireTimer -= Time.deltaTime;
 
         // Combines Mouse Left Click and Touch Button
-        bool isShooting = Input.GetMouseButton(1) || (shootBtn != null && shootBtn.isPressed);             //GetMouseButton(0) - LMB  , GetMouseButton(1) - RMB   
+        bool isShooting = (shootBtn != null && shootBtn.isPressed) || (Input.touchCount == 0 && Input.GetMouseButton(1));             //GetMouseButton(0) - LMB  , GetMouseButton(1) - RMB   
 
-        if(isShooting  && fireTimer < 0f)             
+        if (isShooting && fireTimer < 0f)
         {
             Shoot();
             fireTimer = fireRate;
