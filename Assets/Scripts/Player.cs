@@ -269,9 +269,9 @@ public class Player : MonoBehaviour
         fireTimer -= Time.deltaTime;
 
         // Combines Mouse Left Click and Touch Button
-        bool isShooting = Input.GetMouseButton(0) || (shootBtn != null && shootBtn.isPressed);
+        bool isShooting = Input.GetMouseButton(1) || (shootBtn != null && shootBtn.isPressed);             //GetMouseButton(0) - LMB  , GetMouseButton(1) - RMB   
 
-        if(isShooting  && fireTimer < 0f)             //GetMouseButton(0) - 0 is LMB
+        if(isShooting  && fireTimer < 0f)             
         {
             Shoot();
             fireTimer = fireRate;

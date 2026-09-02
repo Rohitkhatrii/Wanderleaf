@@ -2230,9 +2230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Next Level
-
-'
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10819,7 +10817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   Container: {fileID: 1931001723}
-  touchControls: {fileID: 0}
+  touchControls: {fileID: 237816134}
 --- !u!1001 &1514893910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11639,11 +11637,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.77
+      value: 24.55
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 4.63
       objectReference: {fileID: 0}
     - target: {fileID: 6438837140123821326, guid: e07e36e7e41638d488f0249eb5bb0bff, type: 3}
       propertyPath: m_LocalPosition.z
