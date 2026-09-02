@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private float fireTimer;
 
     [Header("Mobile Touch Controls")]
-    public TouchButton leftBtn;
+    public TouchButton leftBtn;                     // directly using TouchButton class because we have already created a script called TouchButton.cs 
     public TouchButton rightBtn;
     public TouchButton jumpBtn;
     public TouchButton shootBtn;
