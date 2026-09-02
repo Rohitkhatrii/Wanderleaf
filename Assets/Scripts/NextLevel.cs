@@ -7,8 +7,14 @@ public class NextLevel : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        PlayerPrefs.SetInt("LevelReached", nextLevelvalue);       // used to save our game in unity // here we setint it and we can retrieve it via getint
-        Time.timeScale = 1;     // this is the normal time scale
+        // Only update progress forward so replaying earlier levels doesn't relock progress
+        if (nextLevelvalue > PlayerPrefs.GetInt("LevelReached", 1))
+        {
+            PlayerPrefs.SetInt("LevelReached", nextLevelvalue);
+            PlayerPrefs.Save(); // Ensures it writes immediately to browser IndexedDB
+        }
+
+        Time.timeScale = 1;
         Checkpoint.savedPosition = Vector2.zero;
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevelName);
     }

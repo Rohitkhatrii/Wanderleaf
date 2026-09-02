@@ -4,8 +4,8 @@ using UnityEngine;
 // we dont want the player to jump on falling platform two or three times because that is not good for working of the game and will give bugs later. thats why we are using isFalling variable
 public class FallingPlatform : MonoBehaviour
 {
-    public float timeBeforeFall = 2f;
-    public float destroyGameObject = 3f;
+    public float timeBeforeFall = 0.4f;
+    public float destroyGameObject = 2f;
 
     private Rigidbody2D rb;
     private bool isFalling = false;

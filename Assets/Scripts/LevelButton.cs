@@ -9,7 +9,10 @@ public class LevelButton : MonoBehaviour
     {
         Button btn = GetComponent<Button>();
 
-        if(PlayerPrefs.GetInt("LevelReached") < level)
+        // Defaults to 1 for first-time players so Level 1 is always unlocked
+        int levelReached = PlayerPrefs.GetInt("LevelReached", 1);
+
+        if (levelReached < level)
         {
             btn.interactable = false;
         }

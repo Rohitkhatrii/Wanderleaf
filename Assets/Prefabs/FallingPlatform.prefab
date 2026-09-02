@@ -401,8 +401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6903ccfce1293a642a0b620934a554f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingPlatform
-  timeBeforeFall: 1
-  destroyGameObject: 3
+  timeBeforeFall: 0.4
+  destroyGameObject: 2
 --- !u!208 &7589900211275805583
 NavMeshObstacle:
   m_ObjectHideFlags: 0
